@@ -238,7 +238,7 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero-section">
-  <h1 class="hero-title">Welcome to Willow</h1>
+  <h1 class="hero-title">A Platform for Your Thoughts</h1>
   <p class="hero-subtitle">
     Discover amazing stories, insights, and ideas from our community
   </p>
@@ -256,7 +256,7 @@
   <div class="container">
 
     <div class="section-header">
-      <h2 class="section-title">Recent Posts</h2>
+      <h2 style="border: none; border-top: 1px solid #000; opacity: 0.4;" class="section-title">Recent Posts</h2>
       <p class="section-subtitle">Latest stories and insights</p>
     </div>
 

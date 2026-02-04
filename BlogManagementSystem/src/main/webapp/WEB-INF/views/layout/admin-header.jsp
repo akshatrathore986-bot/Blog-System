@@ -15,7 +15,176 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/admin-common.css">     
 
-   
+    <!-- Admin Theme CSS -->
+    <style>
+        :root {
+            --blush-light: #fdf0f0;
+            --blush-medium: #f8e8ea;
+            --blush-dark: #f5e6e8;
+            --cream: #fefdfb;
+            --white: #ffffff;
+
+            --text-dark: #3d3d3d;
+            --text-medium: #5a5a5a;
+            --text-light: #8a8a8a;
+
+            --accent-primary: #d4a5a5;
+            --accent-hover: #c89090;
+
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+            --shadow-md: 0 12px 24px rgba(212,165,165,0.25);
+        }
+
+        body.admin-layout {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+        }
+
+        /* ===== LAYOUT ===== */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .admin-sidebar {
+            width: 260px;
+            background: linear-gradient(
+                180deg,
+                var(--blush-dark),
+                var(--blush-light)
+            );
+            box-shadow: var(--shadow-md);
+            padding: 25px 0;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 10px 20px 25px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.6rem;
+            color: var(--accent-primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .sidebar-nav .nav-item {
+            padding: 12px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav .nav-item i {
+            margin-right: 10px;
+            color: var(--accent-primary);
+        }
+
+        .sidebar-nav .nav-item:hover {
+            background: var(--white);
+            color: var(--accent-primary);
+            transform: translateX(6px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-nav hr {
+            border: none;
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+            margin: 15px 0;
+        }
+
+        /* ===== MAIN ===== */
+        .admin-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .admin-header {
+            background: var(--white);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--accent-primary);
+        }
+
+        .user-info {
+            font-weight: 600;
+            color: var(--text-medium);
+        }
+
+        .user-info i {
+            margin-right: 6px;
+            color: var(--accent-primary);
+        }
+
+        /* ===== CONTENT ===== */
+        .admin-content {
+            padding: 30px;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert-success {
+            background: #eef7ee;
+            color: #3c763d;
+            border-left: 4px solid #a8c9a8;
+        }
+
+        .alert-error {
+            background: #fdecec;
+            color: #a94442;
+            border-left: 4px solid #e6a4a4;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .admin-sidebar {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-wrapper {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body class="admin-layout">

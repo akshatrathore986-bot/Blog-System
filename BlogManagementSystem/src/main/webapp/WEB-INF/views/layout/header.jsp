@@ -153,7 +153,7 @@
     <div class="container">
 
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-            <span>Willow</span>
+            <span>Write.as</span>
         </a>
 
         <button class="navbar-toggler" type="button"

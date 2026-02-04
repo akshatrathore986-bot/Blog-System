@@ -3,7 +3,6 @@ package com.bms.controller;
 import com.bms.dao.*;
 import com.bms.pojo.*;
 import com.bms.util.SlugUtil;
-import com.bms.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,34 +23,22 @@ import java.util.*;
 @Controller
 @RequestMapping("/author")
 public class AuthorController {
-    
-    @Autowired
-    private UserDAO userDAO;
 
-    @Autowired
-    private AuthorDAO authorDAO;
+    @Autowired private UserDAO userDAO;
+    @Autowired private AuthorDAO authorDAO;
+    @Autowired private PostDAO postDAO;
+    @Autowired private CategoryDAO categoryDAO;
+    @Autowired private TagDAO tagDAO;
+    @Autowired private CommentDAO commentDAO;
+    @Autowired private ServletContext servletContext;
 
-    @Autowired
-    private PostDAO postDAO;
-
-    @Autowired
-    private CategoryDAO categoryDAO;
-
-    @Autowired
-    private TagDAO tagDAO;
-
-    @Autowired
-    private CommentDAO commentDAO;
-
-    @Autowired
-    private ServletContext servletContext;   // ⬅️ ADDED (REQUIRED FOR saveImage())
-
-    // -------------------------------------
+    // =================================================
     // AUTHOR DASHBOARD
-    // -------------------------------------
+    // =================================================
     @GetMapping("/dashboard")
     @Transactional
     public String dashboard(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null || user.getRole() != User.Role.AUTHOR) {
             return "redirect:/auth/login";
@@ -60,25 +47,42 @@ public class AuthorController {
         Author author = authorDAO.getAuthorByUserId(user.getUserId());
         List<Post> myPosts = postDAO.getPostsByAuthor(author.getAuthorId());
 
-        long totalPosts = myPosts.size();
-        long publishedPosts = myPosts.stream().filter(p -> p.getStatus() == Post.Status.PUBLISHED).count();
-        long draftPosts = myPosts.stream().filter(p -> p.getStatus() == Post.Status.DRAFT).count();
-
         model.addAttribute("author", author);
-        model.addAttribute("totalPosts", totalPosts);
-        model.addAttribute("publishedPosts", publishedPosts);
-        model.addAttribute("draftPosts", draftPosts);
+        model.addAttribute("totalPosts", myPosts.size());
+        model.addAttribute("publishedPosts",
+                myPosts.stream().filter(p -> p.getStatus() == Post.Status.PUBLISHED).count());
+        model.addAttribute("draftPosts",
+                myPosts.stream().filter(p -> p.getStatus() == Post.Status.DRAFT).count());
         model.addAttribute("recentPosts", myPosts.stream().limit(5).toArray());
 
         return "author/dashboard";
     }
 
-    // -------------------------------------
-    // ALL POSTS OF AUTHOR
-    // -------------------------------------
+    // =================================================
+    // AUTHOR POSTS
+    // =================================================
     @GetMapping("/posts")
     @Transactional
     public String myPosts(HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null || user.getRole() != User.Role.AUTHOR) {
+            return "redirect:/auth/login";
+        }
+
+        Author author = authorDAO.getAuthorByUserId(user.getUserId());
+        model.addAttribute("posts", postDAO.getPostsByAuthor(author.getAuthorId()));
+
+        return "author/posts";
+    }
+
+    // =================================================
+    // ✅ AUTHOR ANALYTICS  (FIXED)
+    // =================================================
+    @GetMapping("/analytics")
+    @Transactional
+    public String analytics(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null || user.getRole() != User.Role.AUTHOR) {
             return "redirect:/auth/login";
@@ -87,16 +91,42 @@ public class AuthorController {
         Author author = authorDAO.getAuthorByUserId(user.getUserId());
         List<Post> posts = postDAO.getPostsByAuthor(author.getAuthorId());
 
+        long totalViews = posts.stream().mapToLong(Post::getViewCount).sum();
+        long totalComments = posts.stream().mapToLong(Post::getCommentCount).sum();
+
+        model.addAttribute("totalViews", totalViews);
+        model.addAttribute("totalComments", totalComments);
+        model.addAttribute("totalPosts", posts.size());
         model.addAttribute("posts", posts);
-        return "author/posts";
+
+        return "author/analytics";
     }
 
-    // -------------------------------------
+    // =================================================
+    // ✅ AUTHOR PROFILE PAGE (FIXED)
+    // =================================================
+    @GetMapping("/profile")
+    @Transactional
+    public String profile(HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null || user.getRole() != User.Role.AUTHOR) {
+            return "redirect:/auth/login";
+        }
+
+        Author author = authorDAO.getAuthorByUserId(user.getUserId());
+        model.addAttribute("author", author);
+
+        return "author/profile";
+    }
+
+    // =================================================
     // CREATE POST PAGE
-    // -------------------------------------
+    // =================================================
     @GetMapping("/post/create")
     @Transactional
     public String createPostPage(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null || user.getRole() != User.Role.AUTHOR) {
             return "redirect:/auth/login";
@@ -108,9 +138,9 @@ public class AuthorController {
         return "author/create-post";
     }
 
-    // -------------------------------------
+    // =================================================
     // CREATE POST
-    // -------------------------------------
+    // =================================================
     @PostMapping("/post/create")
     @Transactional
     public String createPost(
@@ -143,23 +173,18 @@ public class AuthorController {
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         post.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        if (status.equals("PUBLISHED")) {
+        if ("PUBLISHED".equals(status)) {
             post.setPublishedDate(new Timestamp(System.currentTimeMillis()));
         }
 
-        // Featured image
         if (featuredImage != null && !featuredImage.isEmpty()) {
-            try {
-                String fileName = saveImage(featuredImage, "posts");  // ⬅️ saveImage USED
-                post.setFeaturedImage(fileName);
-            } catch (Exception ignored) {}
+            post.setFeaturedImage(saveImage(featuredImage, "posts"));
         }
 
-        // Tags
         if (tagIds != null) {
             Set<Tag> tags = new HashSet<>();
-            for (String tagId : tagIds) {
-                Tag tag = tagDAO.getTagById(Integer.parseInt(tagId));
+            for (String id : tagIds) {
+                Tag tag = tagDAO.getTagById(Integer.parseInt(id));
                 if (tag != null) tags.add(tag);
             }
             post.setTags(tags);
@@ -171,9 +196,9 @@ public class AuthorController {
         return "redirect:/author/posts";
     }
 
-    // -------------------------------------
-    // UPDATE AUTHOR PROFILE
-    // -------------------------------------
+    // =================================================
+    // UPDATE PROFILE
+    // =================================================
     @PostMapping("/profile/update")
     @Transactional
     public String updateProfile(
@@ -192,10 +217,8 @@ public class AuthorController {
         author.setDisplayName(displayName);
         author.setBio(bio);
 
-        // PROFILE IMAGE UPLOAD
         if (profileImage != null && !profileImage.isEmpty()) {
-            String fileName = saveImage(profileImage, "profiles");  // ⬅️ saveImage USED
-            author.setProfileImage(fileName);
+            author.setProfileImage(saveImage(profileImage, "profiles"));
         }
 
         authorDAO.updateAuthor(author);
@@ -204,26 +227,23 @@ public class AuthorController {
         return "redirect:/author/profile";
     }
 
-    // ================================================================
-    //  ⭐ PRIVATE IMAGE UPLOAD METHOD (ADDED AS YOU ASKED)
-    // ================================================================
+    // =================================================
+    // IMAGE UPLOAD UTILITY
+    // =================================================
     private String saveImage(MultipartFile file, String folder) {
         try {
-            String originalName = file.getOriginalFilename();
-            String extension = originalName.substring(originalName.lastIndexOf("."));
-            String fileName = UUID.randomUUID().toString() + extension;
+            String ext = file.getOriginalFilename()
+                    .substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName = UUID.randomUUID() + ext;
 
             String uploadDir = servletContext.getRealPath("/uploads/" + folder + "/");
-
             Files.createDirectories(Paths.get(uploadDir));
 
-            Path filePath = Paths.get(uploadDir, fileName);
-            Files.write(filePath, file.getBytes());
+            Path path = Paths.get(uploadDir, fileName);
+            Files.write(path, file.getBytes());
 
             return fileName;
-
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
     }

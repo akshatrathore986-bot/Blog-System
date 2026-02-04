@@ -317,7 +317,3 @@ a:hover { text-decoration: underline; }
 .dashboard-grid {
     min-height: auto !important;
 }
-.admin-main,
-.admin-content {
-    display: block !important;
-}

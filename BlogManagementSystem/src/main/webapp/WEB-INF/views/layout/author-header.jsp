@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${pageTitle != null ? pageTitle : 'Author Dashboard'} - BlogMS</title>
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/author-common.css">
+    
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
