@@ -22,6 +22,8 @@
     <!-- Main CSS -->
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/home-style.css" rel="stylesheet">
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/public-common.css">
 
     <style>
         :root {
