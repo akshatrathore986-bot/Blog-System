@@ -289,3 +289,35 @@ a:hover { text-decoration: underline; }
     color: #000;
     font-weight: 600;
 }
+/* ===== DASHBOARD SPACING FIX ===== */
+
+/* Overall content area */
+.admin-content {
+    padding-top: 20px !important;
+}
+
+/* Stats cards ke niche space kam */
+.stats-grid {
+    margin-bottom: 20px !important;
+}
+
+/* Dashboard grid (tables / comments) */
+.dashboard-grid {
+    margin-top: 0 !important;
+}
+
+/* Dashboard sections */
+.dashboard-section {
+    margin-top: 0 !important;
+    padding-top: 18px;
+}
+
+/* Remove unwanted height */
+.dashboard-section,
+.dashboard-grid {
+    min-height: auto !important;
+}
+.admin-main,
+.admin-content {
+    display: block !important;
+}

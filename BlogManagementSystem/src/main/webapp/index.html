@@ -1,154 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Management System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .landing-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            padding: 60px 40px;
-            text-align: center;
-        }
-        
-        .logo {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .tagline {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 40px;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-outline {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        
-        .btn-outline:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        .features {
-            margin-top: 60px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature {
-            padding: 20px;
-        }
-        
-        .feature-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .feature h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .feature p {
-            color: #666;
-            font-size: 0.95em;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Management System</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blush-light: #fdf0f0;
+      --blush-medium: #f8e8ea;
+      --blush-dark: #f5e6e8;
+      --cream: #fefdfb;
+      --white: #ffffff;
+
+      --text-dark: #3d3d3d;
+      --text-medium: #5a5a5a;
+      --text-light: #8a8a8a;
+
+      --accent-primary: #d4a5a5;
+      --accent-hover: #c89090;
+
+      --font-script: 'Dancing Script', cursive;
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Montserrat', sans-serif;
+
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 60px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(
+        135deg,
+        var(--blush-light) 0%,
+        var(--blush-medium) 50%,
+        var(--blush-dark) 100%
+      );
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-md);
+      color: var(--text-dark);
+    }
+
+    .landing-container {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(212, 165, 165, 0.25);
+      max-width: 900px;
+      width: 100%;
+      padding: var(--space-xl) var(--space-lg);
+      text-align: center;
+    }
+
+    .logo {
+      font-family: var(--font-script);
+      font-size: 3rem;
+      color: var(--accent-primary);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: var(--text-medium);
+      margin-bottom: var(--space-lg);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-xl);
+    }
+
+    .btn {
+      padding: 14px 42px;
+      font-size: 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(212, 165, 165, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--accent-primary);
+      border: 2px solid var(--accent-primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-primary);
+      color: var(--white);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+
+    .feature {
+      padding: var(--space-md);
+      border-radius: 16px;
+      background: var(--cream);
+      transition: all 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(212, 165, 165, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .feature h3 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 0.95rem;
+      color: var(--text-medium);
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .landing-container {
+        padding: var(--space-lg) var(--space-md);
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="landing-container">
-        <div class="logo">📝</div>
-        <h1>Blog Management System</h1>
-        <p class="tagline">Create, Manage, and Share Your Stories</p>
-        
-        <div class="cta-buttons">
-            <a href="/" class="btn btn-primary">Enter Site</a>
-            <a href="/auth/register" class="btn btn-outline">Get Started</a>
-        </div>
-        
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">✍️</div>
-                <h3>Easy Writing</h3>
-                <p>Rich text editor for beautiful posts</p>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">📊</div>
-                <h3>Analytics</h3>
-                <p>Track views and engagement</p>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure</h3>
-                <p>Role-based access control</p>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">💬</div>
-                <h3>Comments</h3>
-                <p>Engage with your readers</p>
-            </div>
-        </div>
+  <div class="landing-container">
+    <div class="logo">The Side Blogger</div>
+
+    <h1>Blog Management System</h1>
+    <p class="tagline">Create, Manage, and Share Your Stories</p>
+
+    <div class="cta-buttons">
+      <a href="/" class="btn btn-primary">Enter Site</a>
+      <a href="/auth/register" class="btn btn-outline">Get Started</a>
     </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">✍️</div>
+        <h3>Easy Writing</h3>
+        <p>Rich text editor for beautiful blog posts</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Track views, likes, and engagement</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure</h3>
+        <p>Role-based access and data protection</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">💬</div>
+        <h3>Comments</h3>
+        <p>Engage directly with your readers</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

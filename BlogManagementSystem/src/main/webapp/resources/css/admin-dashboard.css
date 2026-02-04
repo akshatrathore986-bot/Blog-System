@@ -1,1 +1,191 @@
-@charset "UTF-8";
+/* ================================
+   ADMIN DASHBOARD ONLY (BLACK TEXT)
+   ================================ */
+
+:root {
+    --blush-light: #fdf0f0;
+    --blush-medium: #f8e8ea;
+    --white: #ffffff;
+
+    --accent-primary: #d4a5a5;
+
+    --success: #a8c9a8;
+    --warning: #f5d5b8;
+    --danger: #e6a4a4;
+
+    --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ===== DASHBOARD HEADER ===== */
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #000;
+}
+
+/* ===== STATS CARDS ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: var(--accent-primary);
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #000;
+}
+
+/* ===== DASHBOARD GRID ===== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.dashboard-section {
+    background: var(--white);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #000;
+}
+
+/* ===== DASHBOARD TABLE ===== */
+.dashboard-section .data-table {
+    box-shadow: none;
+}
+
+.dashboard-section .data-table thead {
+    background: var(--blush-medium);
+}
+
+.dashboard-section .data-table th,
+.dashboard-section .data-table td {
+    padding: 12px 14px;
+    color: #000;
+}
+
+/* ===== STATUS BADGES (DASHBOARD) ===== */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.status-PUBLISHED,
+.status-ACTIVE {
+    background: #eef7ee;
+}
+
+.status-PENDING {
+    background: #fdf3e6;
+}
+
+.status-DRAFT {
+    background: #fdecec;
+}
+
+/* ===== DASHBOARD COMMENTS ===== */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-item {
+    background: var(--white);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.comment-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.comment-item p {
+    margin: 0 0 10px;
+    color: #000;
+    line-height: 1.5;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ===== SMALL BUTTONS (DASHBOARD) ===== */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 8px;
+    color: #000;
+    text-decoration: none;
+}
+
+.btn-success {
+    background: #eef7ee;
+    border: 1px solid var(--success);
+}
+
+.btn-danger {
+    background: #fdecec;
+    border: 1px solid var(--danger);
+}
+
+.btn-success:hover {
+    background: var(--success);
+}
+
+.btn-danger:hover {
+    background: var(--danger);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
